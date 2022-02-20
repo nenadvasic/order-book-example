@@ -9,13 +9,13 @@ import org.jetbrains.exposed.sql.Database
 object DatabaseFactory {
     lateinit var database: Database
 
-    fun init(config: ApplicationConfig) {
+    fun init(appConfig: ApplicationConfig) {
         val config = HikariConfig().apply {
-            jdbcUrl = config.propertyOrNull("db.jdbcUrl")?.getString()
-            driverClassName = config.propertyOrNull("db.driver")?.getString()
-            username = config.propertyOrNull("db.user")?.getString()
-            password = config.propertyOrNull("db.password")?.getString()
-            maximumPoolSize = config.propertyOrNull("db.maxPoolSize")?.getString()!!.toInt()
+            jdbcUrl = appConfig.propertyOrNull("db.jdbcUrl")?.getString()
+            driverClassName = appConfig.propertyOrNull("db.driver")?.getString()
+            username = appConfig.propertyOrNull("db.user")?.getString()
+            password = appConfig.propertyOrNull("db.password")?.getString()
+            maximumPoolSize = appConfig.propertyOrNull("db.maxPoolSize")?.getString()!!.toInt()
         }
 
         val dataSource = HikariDataSource(config)
