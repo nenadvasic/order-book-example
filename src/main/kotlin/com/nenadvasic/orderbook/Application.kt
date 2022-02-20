@@ -1,15 +1,23 @@
 package com.nenadvasic.orderbook
 
-import com.nenadvasic.orderbook.plugins.configureRouting
-import com.nenadvasic.orderbook.plugins.configureSockets
+import com.nenadvasic.orderbook.web.configureRouting
+import com.nenadvasic.orderbook.web.configureSockets
 import io.ktor.application.*
-import com.nenadvasic.orderbook.plugins.*
+import org.koin.ktor.ext.Koin
 
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
-@Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
+
+@Suppress("unused")
 fun Application.module() {
+    // DI
+    install(Koin) {
+        modules(koinModule)
+    }
+
+    DatabaseFactory.init(environment.config)
+
     configureRouting()
     configureSockets()
 }

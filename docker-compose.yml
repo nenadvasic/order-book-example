@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    container_name: order-book-app
+    depends_on:
+      - db
+    volumes:
+      - ./:/order-book-example
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    networks:
+      - order-book-network
+
+  db:
+    image: mysql:8.0
+    container_name: order-book-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE-order_book}
+      - MYSQL_USER=${MYSQL_USER-order_book_user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD-order_book_password}
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    networks:
+      - order-book-network
+
+networks:
+  order-book-network:
+    driver: bridge

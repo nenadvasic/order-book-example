@@ -1,16 +1,15 @@
-package com.nenadvasic.orderbook.plugins
+package com.nenadvasic.orderbook.web
 
 import io.ktor.routing.*
-import io.ktor.http.*
 import io.ktor.application.*
 import io.ktor.response.*
-import io.ktor.request.*
+import java.io.File
 
 fun Application.configureRouting() {
 
     routing {
         get("/") {
-            call.respondText("Hello World!")
+            call.respondFile(File("./frontend/index.html"))
         }
     }
 }
